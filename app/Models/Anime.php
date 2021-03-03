@@ -39,6 +39,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Anime extends Model
 {
+    public const NO_SEASON = 0;
+    public const SPRING_SEASON = 1;
+    public const SUMMER_SEASON = 2;
+    public const FALL_SEASON = 3;
+    public const WINTER_SEASON = 4;
+
     protected $fillable = [
         "name",
         "name_origin",
@@ -46,6 +52,7 @@ class Anime extends Model
         "description",
         "country",
         "type",
+        "season",
         "current_episodes",
         "count_episodes",
         "release_date",

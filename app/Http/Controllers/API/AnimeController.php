@@ -15,11 +15,24 @@ class AnimeController extends Controller
 
     public function index(Request $request)
     {
+        $query = Anime::query();
+
         if ($request->search) {
-            return ResourcesAnime::collection(Anime::where('name', 'like', '%'. $request->search .'%')
-                ->orderBy("updated_at", "desc")
-                ->get());
+            $query = $query->where('name', 'like', '%'. $request->search .'%');
         }
+
+        if ($request->genres) {
+            $genres = $request->genres;
+            $query = $query->whereHas('genres', function ($genreQuery) use ($genres) {
+                $genreQuery->whereIn('name', $genres);
+            });
+        }
+
+        if ($query) {
+            return ResourcesAnime::collection($query->orderBy("updated_at", "desc")
+            ->get());
+        }
+
         return ResourcesAnime::collection(Anime::orderBy("updated_at", "desc")->get());
     }
 
@@ -38,11 +51,11 @@ class AnimeController extends Controller
                 'description' => $request->description,
                 'country' => $request->country,
                 'type' => $request->type,
+                'season' => (int)$request->season,
                 'current_episodes' => (int)$request->current_episodes,
-                'count_episodes' => $request->count_episodes,
-                'poster_id' => $request->poster_id,
-                'count_episodes' => 13,
-                'release_date' => $request->release_date,
+                'count_episodes' => (int)$request->count_episodes,
+                'poster_id' => (int)$request->poster_id,
+                'release_date' => (int)$request->release_date,
             ]
         );
 
@@ -61,10 +74,11 @@ class AnimeController extends Controller
                 'description' => $request->description,
                 'country' => $request->country,
                 'type' => $request->type,
-                'current_episodes' => $request->current_episodes,
-                'poster_id' => $request->poster_id,
-                'episodes' => $request->episodes,
-                'release_date' => $request->release_date,
+                'season' => (int)$request->season,
+                'current_episodes' => (int)$request->current_episodes,
+                'count_episodes' => (int)$request->count_episodes,
+                'poster_id' => (int)$request->poster_id,
+                'release_date' => (int)$request->release_date,
             ]
         );
 
