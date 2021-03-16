@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('anime/relative', 'API\AnimeController@relative');
 Route::resource('anime', 'API\AnimeController');
+Route::resource('cooperation', 'API\CooperationController');
 Route::resource('genre', 'API\GenreController');
 Route::resource('file', 'API\FileController');
 Route::resource('episode', 'API\EpisodeController');
