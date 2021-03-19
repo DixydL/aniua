@@ -13,6 +13,16 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class AnimeController extends Controller
 {
 
+    /**
+    * @OA\Get(
+    *  path="/api/anime",
+    *  @OA\Response(
+    *     response=200,
+    *     description="successful operation",
+    *     @OA\JsonContent(ref="#/components/schemas/AnimeData"),
+    *  )
+    * )
+    */
     public function index(Request $request)
     {
         $query = Anime::query();
@@ -41,6 +51,16 @@ class AnimeController extends Controller
         return ResourcesAnime::collection(Anime::orderBy("updated_at", "desc")->limit(6)->get());
     }
 
+    /**
+    * @OA\Post(
+    *  path="/api/anime",
+    *  @OA\Response(
+    *     response=200,
+    *     description="successful operation",
+    *     @OA\JsonContent(ref="#/components/schemas/AnimeData"),
+    *  )
+    * )
+    */
     public function store(Request $request)
     {
         $anime = Anime::create(

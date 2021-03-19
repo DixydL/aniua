@@ -1,0 +1,197 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Inari Api",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/anime": {
+            "get": {
+                "operationId": "App\\Http\\Controllers\\API\\AnimeController::index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AnimeData"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "App\\Http\\Controllers\\API\\AnimeController::store",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AnimeData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/genre": {
+            "get": {
+                "operationId": "App\\Http\\Controllers\\API\\GenreController::index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GenreData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AnimeData": {
+                "properties": {
+                    "id": {
+                        "description": "Anime id",
+                        "type": "number"
+                    },
+                    "name": {
+                        "description": "Anime name",
+                        "type": "string"
+                    },
+                    "name_origin": {
+                        "description": "Anime name_origin",
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "country": {
+                        "type": "string"
+                    },
+                    "episodes": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EpisodeData"
+                        }
+                    },
+                    "genres": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/GenreData"
+                        }
+                    },
+                    "studio": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "current_episode": {
+                        "type": "integer"
+                    },
+                    "count_episodes": {
+                        "type": "integer"
+                    },
+                    "realese_date": {
+                        "type": "integer"
+                    },
+                    "views": {
+                        "type": "integer"
+                    },
+                    "season": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "AnimeDataRequest": {
+                "properties": {
+                    "id": {
+                        "description": "Anime id",
+                        "type": "number"
+                    },
+                    "name": {
+                        "description": "Anime name",
+                        "type": "string"
+                    },
+                    "name_origin": {
+                        "description": "Anime name_origin",
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "country": {
+                        "type": "string"
+                    },
+                    "studio": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "current_episode": {
+                        "type": "integer"
+                    },
+                    "count_episodes": {
+                        "type": "integer"
+                    },
+                    "realese_date": {
+                        "type": "integer"
+                    },
+                    "views": {
+                        "type": "integer"
+                    },
+                    "season": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "EpisodeData": {
+                "properties": {
+                    "id": {
+                        "description": "Episode id",
+                        "type": "number"
+                    },
+                    "name": {
+                        "description": "Episode name",
+                        "type": "string"
+                    },
+                    "episode": {
+                        "type": "integer"
+                    },
+                    "iframe": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "GenreData": {
+                "properties": {
+                    "id": {
+                        "description": "Anime id",
+                        "type": "number"
+                    },
+                    "name": {
+                        "description": "Anime name",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
