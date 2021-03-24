@@ -18,6 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Users
+Route::post('user/register', 'API\RegisterController@register');
+
+//Animes
 Route::get('anime/relative', 'API\AnimeController@relative');
 Route::resource('anime', 'API\AnimeController');
 Route::resource('cooperation', 'API\CooperationController');

@@ -115,6 +115,31 @@
                     }
                 }
             }
+        },
+        "/api/user/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "App\\Http\\Controllers\\API\\RegisterController::register",
+                "requestBody": {
+                    "request": "UserArray",
+                    "description": "List of user object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterDataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -261,6 +286,20 @@
                         "items": {
                             "type": "number"
                         }
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterDataRequest": {
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
                     }
                 },
                 "type": "object"
