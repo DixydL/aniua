@@ -8,6 +8,34 @@
         "/api/anime": {
             "get": {
                 "operationId": "App\\Http\\Controllers\\API\\AnimeController::index",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "filter",
+                        "schema": {
+                            "$ref": "#/components/schemas/AnimeFilterDataRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AnimeData"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "App\\Http\\Controllers\\API\\AnimeController::store",
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -20,9 +48,43 @@
                         }
                     }
                 }
-            },
-            "post": {
-                "operationId": "App\\Http\\Controllers\\API\\AnimeController::store",
+            }
+        },
+        "/api/anime/relative": {
+            "get": {
+                "operationId": "App\\Http\\Controllers\\API\\AnimeController::relative",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AnimeData"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/anime/{id}": {
+            "get": {
+                "operationId": "App\\Http\\Controllers\\API\\AnimeController::show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID anime",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -185,6 +247,20 @@
                     "name": {
                         "description": "Anime name",
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "AnimeFilterDataRequest": {
+                "properties": {
+                    "search": {
+                        "type": "string"
+                    },
+                    "genres": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
                     }
                 },
                 "type": "object"

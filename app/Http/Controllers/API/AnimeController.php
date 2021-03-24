@@ -16,10 +16,19 @@ class AnimeController extends Controller
     /**
     * @OA\Get(
     *  path="/api/anime",
+    *  @OA\Parameter(
+    *       name="filter",
+    *       in="query",
+    *       description="filter",
+    *       @OA\Schema(ref="#/components/schemas/AnimeFilterDataRequest")
+    *  ),
     *  @OA\Response(
     *     response=200,
     *     description="successful operation",
-    *     @OA\JsonContent(ref="#/components/schemas/AnimeData"),
+    *     @OA\JsonContent(
+    *        type="array",
+    *        @OA\Items(ref="#/components/schemas/AnimeData")
+    *     ),
     *  )
     * )
     */
@@ -46,6 +55,19 @@ class AnimeController extends Controller
         return ResourcesAnime::collection(Anime::orderBy("updated_at", "desc")->get());
     }
 
+    /**
+    * @OA\Get(
+    *  path="/api/anime/relative",
+    *  @OA\Response(
+    *     response=200,
+    *     description="successful operation",
+    *     @OA\JsonContent(
+    *        type="array",
+    *        @OA\Items(ref="#/components/schemas/AnimeData")
+    *     ),
+    *  )
+    * )
+    */
     public function relative()
     {
         return ResourcesAnime::collection(Anime::orderBy("updated_at", "desc")->limit(6)->get());
@@ -109,6 +131,26 @@ class AnimeController extends Controller
         return new JsonResource($anime);
     }
 
+    /**
+    * @OA\Get(
+    *  path="/api/anime/{id}",
+    *  @OA\Parameter(
+    *    description="ID anime",
+    *    in="path",
+    *    name="id",
+    *    required=true,
+    *    @OA\Schema(
+    *       type="integer",
+    *       format="int64"
+    *      )
+    *  ),
+    *  @OA\Response(
+    *     response=200,
+    *     description="successful operation",
+    *     @OA\JsonContent(ref="#/components/schemas/AnimeData"),
+    *  )
+    * )
+    */
     public function show(Anime $anime)
     {
         return new ResourcesAnime($anime);
