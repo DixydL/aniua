@@ -12,7 +12,7 @@ class AnimeFilterDataRequest extends DataTransferObject
     /**
      * @OA\Property()
      */
-    public string $search;
+    public ?string $search;
 
     /**
      * @OA\Property(
@@ -22,5 +22,14 @@ class AnimeFilterDataRequest extends DataTransferObject
      *  ),
      * )
      */
-    public array $genres;
+    public ?array $genres;
+
+    /**
+     * @OA\Property(
+     *    type="number",
+     *    enum={"0", "1", "2", "3", "4"},
+     *    description="0 - без сезону, 1 - Весна, 2 - Літо, 3 - Осінь, 4 - Зима"
+     * )
+     */
+    public ?int $season;
 }

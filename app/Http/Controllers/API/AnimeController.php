@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use App\DataRequest\Anime\AnimeFilterDataRequest;
+use App\DataRequest\Anime\AnimeSortDataRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Anime as ResourcesAnime;
 use App\Models\Anime;
 use App\Models\Figure;
 use App\Models\Genre;
+use App\Services\Sort\AnimeSortService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,6 +25,12 @@ class AnimeController extends Controller
     *       description="filter",
     *       @OA\Schema(ref="#/components/schemas/AnimeFilterDataRequest")
     *  ),
+    *  @OA\Parameter(
+    *       name="sort",
+    *       in="query",
+    *       description="sort",
+    *       @OA\Schema(ref="#/components/schemas/AnimeSortDataRequest")
+    *  ),
     *  @OA\Response(
     *     response=200,
     *     description="successful operation",
@@ -32,24 +41,45 @@ class AnimeController extends Controller
     *  )
     * )
     */
-    public function index(Request $request)
+    public function index(Request $request, AnimeSortService $animeSortService)
     {
         $query = Anime::query();
 
-        if ($request->search) {
-            $query = $query->where('name', 'like', '%'. $request->search .'%');
+        if ($request->filter) {
+            $animeFilterDataRequest = new AnimeFilterDataRequest([
+                'search' => $request->filter['search'] ?? "",
+                'genres' => $request->filter['genres'] ?? [],
+                'season' => $request->filter['season'] ?? null,
+            ]);
+
+            if ($animeFilterDataRequest->search) {
+                $query = $query->where('name', 'like', '%'. $request->search .'%');
+            }
+
+            if ($animeFilterDataRequest->genres) {
+                $genres = $request->genres;
+                $query = $query->whereHas('genres', function ($genreQuery) use ($genres) {
+                    $genreQuery->whereIn('name', $genres);
+                });
+            }
+
+            if ($animeFilterDataRequest->season) {
+                $query = $query->where('season', $animeFilterDataRequest->season);
+            }
         }
 
-        if ($request->genres) {
-            $genres = $request->genres;
-            $query = $query->whereHas('genres', function ($genreQuery) use ($genres) {
-                $genreQuery->whereIn('name', $genres);
-            });
+        if ($request->sort) {
+            $animeSortDataRequest = new AnimeSortDataRequest([
+                'type' => $request->sort['type'] ?? "",
+                'by' => $request->sort['by'] ?? [],
+            ]);
+
+            $animeSortService->animeSort($query, $animeSortDataRequest);
         }
 
         if ($query) {
             return ResourcesAnime::collection($query->orderBy("updated_at", "desc")
-            ->get());
+                ->get());
         }
 
         return ResourcesAnime::collection(Anime::orderBy("updated_at", "desc")->get());

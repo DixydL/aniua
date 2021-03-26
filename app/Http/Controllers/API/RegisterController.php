@@ -51,10 +51,21 @@ class RegisterController extends BaseController
     }
 
     /**
-     * Login api
-     *
-     * @return \Illuminate\Http\Response
-     */
+    * @OA\Post(
+    *  path="/api/user/login",
+    *  tags={"User"},
+    *  @OA\RequestBody(
+    *     request="UserArray",
+    *     description="List of user object",
+    *     required=true,
+    *     @OA\JsonContent(ref="#/components/schemas/LoginDataRequest")
+    *  ),
+    *  @OA\Response(
+    *     response=200,
+    *     description="successful operation",
+    *  )
+    * )
+    */
     public function login(LoginRequest $request)
     {
         if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password])) {
@@ -62,7 +73,6 @@ class RegisterController extends BaseController
 
             $success['token'] = $user->createToken('MyApp')->accessToken;
 
-            $user->remember_token = $success['token'];
             $user->api_token = $success['token'];
             $user->save();
 

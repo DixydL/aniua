@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Users
 Route::post('user/register', 'API\RegisterController@register');
+Route::post('user/login', 'API\RegisterController@login');
 
 //Animes
 Route::get('anime/relative', 'API\AnimeController@relative');
