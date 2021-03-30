@@ -19,8 +19,8 @@ class CreateAnimeViewsTable extends Migration
             $table->timestamps();
 
 
-            $table->index(["anime_id", "ip"]);
-            $table->unique(["anime_id", "ip"]);
+            $table->index(["anime_id", "ip", "created_at"]);
+            $table->unique(["anime_id", "ip", "created_at"]);
             $table->foreign('anime_id')->references('id')->on('animes');
         });
     }
