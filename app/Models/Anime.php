@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use Doctrine\DBAL\Schema\View;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -84,5 +85,15 @@ class Anime extends Model
     public function poster()
     {
         return $this->belongsTo(File::class);
+    }
+
+    public function views()
+    {
+        return $this->hasMany(AnimeView::class);
+    }
+
+    public function countViews(): int
+    {
+        return $this->views()->count();
     }
 }

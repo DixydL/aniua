@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Data\Anime\AnimeViewsData;
 use App\DataRequest\Anime\AnimeFilterDataRequest;
 use App\DataRequest\Anime\AnimeSortDataRequest;
 use App\Http\Controllers\Controller;
@@ -9,6 +10,7 @@ use App\Http\Resources\Anime as ResourcesAnime;
 use App\Models\Anime;
 use App\Models\Figure;
 use App\Models\Genre;
+use App\Services\AnimeService;
 use App\Services\Sort\AnimeSortService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -181,8 +183,14 @@ class AnimeController extends Controller
     *  )
     * )
     */
-    public function show(Anime $anime)
+    public function show(Request $request, Anime $anime, AnimeService $animeService)
     {
+        $animeViewData = new AnimeViewsData([
+            "ip" => $request->ip(),
+            "anime_id" => $anime->id,
+        ]);
+
+        $animeService->addAnimeViews($animeViewData);
         return new ResourcesAnime($anime);
     }
 

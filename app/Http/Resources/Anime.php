@@ -29,6 +29,7 @@ class Anime extends JsonResource
             'episodes' => $this->episodes,
             'voicers' => $this->figures()->where('type', Figure::VOICER)->get(),
             'translators' => $this->figures()->where('type', Figure::TRANSLATOR)->get(),
+            'views' => $this->views_count,
             'description' => $this->description,
             'poster_url' => $this->poster->url,
             'poster_id' => $this->poster_id,

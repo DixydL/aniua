@@ -13,7 +13,7 @@ class AnimeSortDataRequest extends DataTransferObject
      * @OA\Property(
      *    type="string",
      *    enum={"asc", "desc"},
-     *    description="asc - По збільшенні, desc - по зменшенні"
+     *    description="asc - По зменшенні, desc - по збільшенні"
      * )
      */
     public ?string $by;
